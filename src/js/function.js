@@ -8,7 +8,7 @@
  */
 var Control_direction = {
     //构建蛇身体
-    snake_body: [{x: 5, y: 3}, {x: 5, y: 4}, {x: 5, y: 5}, {x: 5, y: 6}, {x: 5, y: 7}, {x: 5, y: 8}, {x: 5, y: 9}, {x: 5, y: 10}, {x: 5, y: 11}, {x: 5, y: 12}, {x: 5, y: 13}, {x: 5, y: 14}, {x: 5, y: 15}, {x: 5, y: 16}, {x: 5, y: 17}, {x: 5, y: 18}, {x: 5, y: 19}],
+    snake_body: [{x: 5, y: 9}, {x: 5, y: 10}, {x: 5, y: 11}],
 
     //运行标志
     run_flag: null,
@@ -188,6 +188,7 @@ var Show = {
  */
 var Generate_beans = {
     //豆池
+    beans_map: [],
     beans_pond_x: [],
     beans_pond_y: [],
 
@@ -201,25 +202,21 @@ var Generate_beans = {
             var point_x = directionObj.snake_body[index].x
             var point_y = directionObj.snake_body[index].y
 
-            this.beans_pond_x[point_x].body = 1
-            this.beans_pond_y[point_y].body = 1
+            this.beans_map[point_y][point_x] = 1
         }
 
-        var rang_x = []
-        for (index in this.beans_pond_x) {
-            if (this.beans_pond_x[index].body != 1) {
-                rang_x.push(index)
+        //筛选出允许的坐标点
+        var allow_point_list = []
+        for (var index in this.beans_map) {
+            var point_x_list = this.beans_map[index]
+            for (point_x in point_x_list) {
+                if (point_x_list[point_x] != 1) {
+                    allow_point_list.push({x: parseInt(point_x), y: parseInt(index)})
+                }
             }
         }
 
-        var rang_y = []
-        for (index in this.beans_pond_y) {
-            if (this.beans_pond_y[index].body != 1) {
-                rang_y.push(index)
-            }
-        }
-
-        this.create_beans(rang_x, rang_y)
+        this.create_beans(allow_point_list)
     },
     //清除豆池
     init_pond: function () {
@@ -233,14 +230,11 @@ var Generate_beans = {
 
     },
     //创建豆子
-    create_beans: function (rang_x, rang_y) {
+    create_beans: function (point_list) {
 
-        var point_x = rang_x[Math.floor(Math.random() * rang_x.length)] * 1
-        var point_y = rang_y[Math.floor(Math.random() * rang_y.length)] * 1
-
-        this.beans_point.push({x: point_x, y: point_y})
-        console.log(this.beans_point)
-        Show.add_class(this.beans_point[0], Show.beans_css)
+        var point = point_list[Math.floor(Math.random() * point_list.length)]
+        this.beans_point.push(point)
+        Show.add_class(point, Show.beans_css)
     }
 }
 
@@ -304,18 +298,18 @@ function init_canvas(x, y, canvas) {
     var canvas_cont = ''
     for (var i = 0; i < y; i++) {
         //构建豆池
-        beans_pond.beans_pond_y.push({body: 0})
+        beans_pond.beans_map.push([])
         var axis_x = x
         for (var j = 0; j < axis_x; j++) {
+            //画布
             var point = 'x' + j + 'y' + i
             canvas_cont += '<div class="size" id="' + point + '"></div>'
+
+            //豆池
+            beans_pond.beans_map[i].push(0)
         }
     }
 
-    //构建豆池
-    for (var j = 0; j < x; j++) {
-        beans_pond.beans_pond_x.push({body: 0})
-    }
     canvas.innerHTML = canvas_cont
     beans_pond.update_pond()
 }
