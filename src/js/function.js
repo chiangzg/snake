@@ -189,15 +189,12 @@ var Show = {
 var Generate_beans = {
     //豆池
     beans_map: [],
-    beans_pond_x: [],
-    beans_pond_y: [],
 
     //豆子所在位置
     beans_point: [],
 
     //更新豆池
     update_pond: function () {
-        this.init_pond()
         for (index in directionObj.snake_body) {
             var point_x = directionObj.snake_body[index].x
             var point_y = directionObj.snake_body[index].y
@@ -218,20 +215,9 @@ var Generate_beans = {
 
         this.create_beans(allow_point_list)
     },
-    //清除豆池
-    init_pond: function () {
-        for (index in this.beans_pond_x) {
-            this.beans_pond_x[index].body = 0
-        }
 
-        for (index in this.beans_pond_y) {
-            this.beans_pond_y[index].body = 0
-        }
-
-    },
     //创建豆子
     create_beans: function (point_list) {
-
         var point = point_list[Math.floor(Math.random() * point_list.length)]
         this.beans_point.push(point)
         Show.add_class(point, Show.beans_css)
