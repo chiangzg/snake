@@ -3,6 +3,15 @@
  */
 
 /**
+ *
+ * TODO 积分系统
+ * @type {{}}
+ */
+var Cents = {
+
+}
+
+/**
  * 控制类
  * @type {{snake_body: [*], run_flag: null, cur_direction: string, next_direction: string, sleep_time: number, direction_set: [*], allow_set: [*], move_up: Control_direction.move_up, move_down: Control_direction.move_down, move_left: Control_direction.move_left, move_right: Control_direction.move_right, run: Control_direction.run, start: Control_direction.start, pause: Control_direction.pause, end: Control_direction.end}}
  */
