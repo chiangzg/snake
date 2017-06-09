@@ -8,7 +8,7 @@
  */
 var Control_direction = {
     //构建蛇身体
-    snake_body: [{x: 5, y: 9}, {x: 5, y: 10}, {x: 5, y: 11}],
+    snake_body: [{x: 5, y: 3}, {x: 5, y: 4}, {x: 5, y: 5}, {x: 5, y: 6}, {x: 5, y: 7}, {x: 5, y: 8}, {x: 5, y: 9}, {x: 5, y: 10}, {x: 5, y: 11}, {x: 5, y: 12}, {x: 5, y: 13}, {x: 5, y: 14}, {x: 5, y: 15}, {x: 5, y: 16}, {x: 5, y: 17}, {x: 5, y: 18}, {x: 5, y: 19}],
 
     //运行标志
     run_flag: null,
@@ -37,7 +37,12 @@ var Control_direction = {
 
         var elem = {x: axis_x, y: axis_y}
         this.snake_body.unshift(elem)
-        Show.remove_class(this.snake_body.pop())
+        if (this.is_add_beans(elem)) {
+            this.add_beans()
+        } else {
+            Show.remove_class(this.snake_body.pop())
+        }
+
         Show.add_class(elem)
         return true
     },
@@ -53,7 +58,12 @@ var Control_direction = {
 
         var elem = {x: axis_x, y: axis_y}
         this.snake_body.unshift(elem)
-        Show.remove_class(this.snake_body.pop())
+        if (this.is_add_beans(elem)) {
+            this.add_beans()
+        } else {
+            Show.remove_class(this.snake_body.pop())
+        }
+
         Show.add_class(elem)
         return true
     },
@@ -69,7 +79,12 @@ var Control_direction = {
 
         var elem = {x: axis_x, y: axis_y}
         this.snake_body.unshift(elem)
-        Show.remove_class(this.snake_body.pop())
+        if (this.is_add_beans(elem)) {
+            this.add_beans()
+        } else {
+            Show.remove_class(this.snake_body.pop())
+        }
+
         Show.add_class(elem)
         return true
     },
@@ -85,12 +100,31 @@ var Control_direction = {
 
         var elem = {x: axis_x, y: axis_y}
         this.snake_body.unshift(elem)
-        Show.remove_class(this.snake_body.pop())
+        if (this.is_add_beans(elem)) {
+            this.add_beans()
+        } else {
+            Show.remove_class(this.snake_body.pop())
+        }
+
         Show.add_class(elem)
         return true
     },
-    run: function () {
 
+    //是否增加身体
+    is_add_beans: function (first_body) {
+        var beans = beans_pond.beans_point[0]
+        if (first_body.x == beans.x && first_body.y == beans.y) {
+            return true
+        }
+        return false;
+    },
+
+    //增加身体
+    add_beans: function () {
+        var beans = beans_pond.beans_point.pop()
+        Show.remove_class(beans)
+        Show.add_class(beans, Show.body_css)
+        beans_pond.update_pond()
     },
     start: function () {
         move_snake()
@@ -205,6 +239,7 @@ var Generate_beans = {
         var point_y = rang_y[Math.floor(Math.random() * rang_y.length)] * 1
 
         this.beans_point.push({x: point_x, y: point_y})
+        console.log(this.beans_point)
         Show.add_class(this.beans_point[0], Show.beans_css)
     }
 }
