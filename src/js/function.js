@@ -20,7 +20,7 @@ var Control_direction = {
     next_direction: 'ArrowUp',
 
     //行动间隔时间（ms）
-    sleep_time: 1000,
+    sleep_time: 300,
 
     //合法按键
     direction_set: ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'],
