@@ -104,6 +104,7 @@ var Control_direction = {
     end: function () {
         clearInterval(this.run_flag)
         alert('GameOver！')
+        location.reload(true)
         return
     }
 }
