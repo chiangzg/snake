@@ -30,7 +30,7 @@ var Control_direction = {
     move_up: function () {
         var axis_y = this.snake_body[0].y - 1
         var axis_x = this.snake_body[0].x
-        if (axis_y < 0) {
+        if (axis_y < 0 || !this.is_accord_rule(axis_x, axis_y)) {
             this.end()
             return false
         }
@@ -51,7 +51,7 @@ var Control_direction = {
     move_down: function () {
         var axis_y = this.snake_body[0].y + 1
         var axis_x = this.snake_body[0].x
-        if (axis_y >= canvas_y) {
+        if (axis_y >= canvas_y || !this.is_accord_rule(axis_x, axis_y)) {
             this.end()
             return false
         }
@@ -72,7 +72,7 @@ var Control_direction = {
     move_left: function () {
         var axis_y = this.snake_body[0].y
         var axis_x = this.snake_body[0].x - 1
-        if (axis_x < 0) {
+        if (axis_x < 0 || !this.is_accord_rule(axis_x, axis_y)) {
             this.end()
             return false
         }
@@ -93,7 +93,7 @@ var Control_direction = {
     move_right: function () {
         var axis_y = this.snake_body[0].y
         var axis_x = this.snake_body[0].x + 1
-        if (axis_x >= canvas_x) {
+        if (axis_x >= canvas_x || !this.is_accord_rule(axis_x, axis_y)) {
             this.end()
             return false
         }
@@ -118,6 +118,15 @@ var Control_direction = {
         }
         return false;
     },
+    //规则
+    is_accord_rule: function (point_x, point_y) {
+        for (var index in this.snake_body) {
+            if (this.snake_body[index].x == point_x && this.snake_body[index].y == point_y) {
+                return false
+            }
+        }
+        return true
+    },
 
     //增加身体
     add_beans: function () {
@@ -128,7 +137,7 @@ var Control_direction = {
     },
     start: function () {
         move_snake()
-        // this.run_flag = setInterval("move_snake()", this.sleep_time)
+        this.run_flag = setInterval("move_snake()", this.sleep_time)
     },
     pause: function () {
         clearInterval(directionObj.run_flag)
